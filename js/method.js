@@ -114,6 +114,16 @@ export function tinhTienCap() {
     } else {
         let soTien = 0;
 
+        if (loaiKhachHang == 'personal') {
+            soTien = 25 + (7.5 * soKenhCaoCap);
+        } else {
+            if (soKetNoi > 10) {
+                soTien = 75 + ((soKetNoi - 10) * 5) + (50 * soKenhCaoCap)
+            } else {
+                soTien = 75;
+            }
+        }
+
         thongBao = `Mã khách hàng: ${maKhachHang}; Tiền cáp: ${dinhDangTienUSD(soTien)}`;
     }
 
