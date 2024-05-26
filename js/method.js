@@ -1,7 +1,7 @@
 export function ketQuaTuyenSinh() {
     let diemChuan = Number(document.getElementById('bai-1-diem-chuan').value);
-    let khuVuc = Number(document.getElementById('bai-1-khu-vuc').value);
-    let doiTuong = Number(document.getElementById('bai-1-doi-tuong').value);
+    let diemKhuVuc = Number(document.getElementById('bai-1-khu-vuc').value);
+    let diemDoiTuong = Number(document.getElementById('bai-1-doi-tuong').value);
     let diemMon1 = Number(document.getElementById('bai-1-diem-mon-1').value);
     let diemMon2 = Number(document.getElementById('bai-1-diem-mon-2').value);
     let diemMon3 = Number(document.getElementById('bai-1-diem-mon-3').value);
@@ -12,7 +12,7 @@ export function ketQuaTuyenSinh() {
     if (!diemMon1 || !diemMon2 || !diemMon3) {
         thongBao = `Bạn đã rớt. Do có điểm nhỏ hơn hoặc bằng 0`;
     } else {
-        let tongDiem = khuVuc + doiTuong + diemMon1 + diemMon2 + diemMon3;
+        let tongDiem = diemKhuVuc + diemDoiTuong + diemMon1 + diemMon2 + diemMon3;
         if (tongDiem >= diemChuan) {
             thongBao = `Bạn đã đậu. Tổng diểm ${tongDiem}`;
         } else {
@@ -24,7 +24,7 @@ export function ketQuaTuyenSinh() {
 }
 
 export function tinhTienDien() {
-    let hoTen = Number(document.getElementById('bai-2-ho-ten').value);
+    let hoTen = document.getElementById('bai-2-ho-ten').value;
     let soKw = Number(document.getElementById('bai-2-so-kw').value);
     let ketQua = document.getElementById('bai-2-ket-qua');
     const donGiaCap1 = 500;
@@ -51,29 +51,80 @@ export function tinhTienDien() {
             soTien = 50 * donGiaCap1;
         }
 
-        thongBao = `Họ tên: ${hoTen}; Tiền điện: ${dinhDangTien(soTien)}`;
+        thongBao = `Họ tên: ${hoTen}; Tiền điện: ${dinhDangTienVN(soTien)}`;
     }
 
     ketQua.innerHTML = thongBao;
 }
 
+// https://ebh.vn/tin-tuc/huong-dan-cach-tinh-thue-thu-nhap-ca-nhan-don-gian-va-de-ap-dung
 export function tinhThueThuNhapCaNhan() {
-    let tyLeQuyDoi = 23500;
-    let soTien = Number(document.getElementById('bai-3-so-tien').value);
+    let hoTen = document.getElementById('bai-3-ho-ten').value;
+    let tongThuNhap = Number(document.getElementById('bai-3-thu-nhap-nam').value);
+    let soNguoiPhuThuoc = Number(document.getElementById('bai-3-so-nguoi-phu-thuoc').value);
+    let thuNhapChiuThue = tongThuNhap - 11000000 - (4400000 * soNguoiPhuThuoc);
     let ketQua = document.getElementById('bai-3-ket-qua');
+    const thueCap1 = 0.05;
+    const thueCap2 = 0.1;
+    const thueCap3 = 0.15;    
+    const thueCap4 = 0.2;    
+    const thueCap5 = 0.25;
+    const thueCap6 = 0.3;
+    const thueCap7 = 0.35;
 
-    ketQua.innerHTML = dinhDangTien(soTien * tyLeQuyDoi);
+    let thongBao = '';
+
+    if (!tongThuNhap) {
+        thongBao = `Số tiền thu nhập không hợp lệ`;
+    } else {
+        let soTien = 0;
+        if (thuNhapChiuThue > 960000000) {
+            soTien = thuNhapChiuThue * thueCap7;
+        } else if (thuNhapChiuThue > 624000000) {
+            soTien = thuNhapChiuThue * thueCap6;
+        } else if (thuNhapChiuThue > 384000000) {
+            soTien = thuNhapChiuThue * thueCap5;
+        } else if (thuNhapChiuThue > 216000000) {
+            soTien = thuNhapChiuThue * thueCap4;
+        } else if (thuNhapChiuThue > 120000000) {
+            soTien = thuNhapChiuThue * thueCap3;
+        } else if (thuNhapChiuThue > 60000000) {
+            soTien = thuNhapChiuThue * thueCap2;
+        } else {
+            soTien = thuNhapChiuThue * thueCap1;
+        }
+
+        thongBao = `Họ tên: ${hoTen}; Tiền thuế thu nhập cá nhân: ${dinhDangTienVN(soTien)}`;
+    }
+
+    ketQua.innerHTML = thongBao;
 }
 
 export function tinhTienCap() {
-    let chieuDai = Number(document.getElementById('bai-4-chieu-dai').value);
-    let chieuRong = Number(document.getElementById('bai-4-chieu-rong').value);
+    let loaiKhachHang = document.getElementById('bai-4-loai-khach-hang').value;
+    let maKhachHang = document.getElementById('bai-4-ma-khach-hang').value;
+    let soKenhCaoCap = Number(document.getElementById('bai-4-so-kenh-cao-cap').value);
+    let soKetNoi = Number(document.getElementById('bai-4-so-ket-noi').value);
     let ketQua = document.getElementById('bai-4-ket-qua');
 
-    ketQua.innerHTML = `Diện tích: ${chieuDai * chieuRong}; Chu vi: ${(chieuDai + chieuRong) * 2}`;
+    let thongBao = '';
+
+    if (!loaiKhachHang) {
+        thongBao = `Vui lòng chọn loại Khách hàng`;
+    } else {
+        let soTien = 0;
+
+        thongBao = `Mã khách hàng: ${maKhachHang}; Tiền cáp: ${dinhDangTienUSD(soTien)}`;
+    }
+
+    ketQua.innerHTML = thongBao;
 }
 
 // Hàm chung
-function dinhDangTien(soTien) {
+function dinhDangTienVN(soTien) {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(soTien);
+}
+
+function dinhDangTienUSD(soTien) {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', currencyDisplay: 'narrowSymbol' }).format(soTien);
 }

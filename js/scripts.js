@@ -19,6 +19,10 @@ document.getElementById('bai-tap-3-form').onsubmit = function() {
 }
 
 // Bài tập 4: Tính diện tích, chu vi hình chữ nhật
+document.getElementById("bai-4-loai-khach-hang").addEventListener("change", function(e){
+    document.getElementById("bai-4-so-ket-noi").style.display = (e.target.value == 'company') ? 'block' : 'none';
+});
+
 document.getElementById('bai-tap-4-form').onsubmit = function() {
     tinhTienCap();
     return false;
