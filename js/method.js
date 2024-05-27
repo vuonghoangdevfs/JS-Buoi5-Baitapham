@@ -28,10 +28,10 @@ export function tinhTienDien() {
     let soKw = Number(document.getElementById('bai-2-so-kw').value);
     let ketQua = document.getElementById('bai-2-ket-qua');
     const donGiaCap1 = 500;
-    const donGiaCap2 = 1000;
-    const donGiaCap3 = 1500;    
-    const donGiaCap4 = 2000;    
-    const donGiaCap5 = 2500;
+    const donGiaCap2 = 650;
+    const donGiaCap3 = 850;    
+    const donGiaCap4 = 1100;    
+    const donGiaCap5 = 1300;
 
     let thongBao = '';
 
@@ -57,12 +57,11 @@ export function tinhTienDien() {
     ketQua.innerHTML = thongBao;
 }
 
-// https://ebh.vn/tin-tuc/huong-dan-cach-tinh-thue-thu-nhap-ca-nhan-don-gian-va-de-ap-dung
 export function tinhThueThuNhapCaNhan() {
     let hoTen = document.getElementById('bai-3-ho-ten').value;
     let tongThuNhap = Number(document.getElementById('bai-3-thu-nhap-nam').value);
     let soNguoiPhuThuoc = Number(document.getElementById('bai-3-so-nguoi-phu-thuoc').value);
-    let thuNhapChiuThue = tongThuNhap - 11000000 - (4400000 * soNguoiPhuThuoc);
+    let thuNhapChiuThue = tongThuNhap - 4000000 - (1600000 * soNguoiPhuThuoc);
     let ketQua = document.getElementById('bai-3-ket-qua');
     const thueCap1 = 0.05;
     const thueCap2 = 0.1;
@@ -84,7 +83,7 @@ export function tinhThueThuNhapCaNhan() {
             soTien = thuNhapChiuThue * thueCap6;
         } else if (thuNhapChiuThue > 384000000) {
             soTien = thuNhapChiuThue * thueCap5;
-        } else if (thuNhapChiuThue > 216000000) {
+        } else if (thuNhapChiuThue > 210000000) {
             soTien = thuNhapChiuThue * thueCap4;
         } else if (thuNhapChiuThue > 120000000) {
             soTien = thuNhapChiuThue * thueCap3;
@@ -115,13 +114,16 @@ export function tinhTienCap() {
         let soTien = 0;
 
         if (loaiKhachHang == 'personal') {
-            soTien = 25 + (7.5 * soKenhCaoCap);
+            soTien = 4.5 + 20.5; // Phí xử lý hóa đơn + phí dịch vụ
+            soTien += 7.5 * soKenhCaoCap;
         } else {
+            soTien = 15; // Phí xử lý hóa đơn
             if (soKetNoi > 10) {
-                soTien = 75 + ((soKetNoi - 10) * 5) + (50 * soKenhCaoCap)
+                soTien += 75 + ((soKetNoi - 10) * 5);
             } else {
-                soTien = 75;
+                soTien += 75;
             }
+            soTien += (50 * soKenhCaoCap); // Kênh cao cấp
         }
 
         thongBao = `Mã khách hàng: ${maKhachHang}; Tiền cáp: ${dinhDangTienUSD(soTien)}`;
